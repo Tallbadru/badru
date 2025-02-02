@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import "./Login.css";
 
-// const baseUrl = process.env.REACT_APP_BACKEND_URL;
-
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,6 +8,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage(""); // Clear previous errors
 
     const loginData = {
       username: email,
@@ -18,24 +17,26 @@ const Login = () => {
 
     try {
       const response = await fetch("https://babu-rental-house.onrender.com/api/login/", {
-        method: "POST",
+        method: "POST", // Ensure only POST is used
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(loginData),
       });
 
-      const result = await response.json();
-
-      if (response.ok) {
-        window.location.href = "/dashboard";
-        console.log("Login successful:", result);
-      } else {
-        setErrorMessage(result.message);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Login failed.");
       }
+
+      const result = await response.json();
+      console.log("Login successful:", result);
+
+      // Redirect on successful login
+      window.location.href = "/dashboard";
     } catch (error) {
       console.error("Error during login:", error);
-      setErrorMessage("An error occurred. Please try again later.");
+      setErrorMessage(error.message);
     }
   };
 
@@ -53,7 +54,7 @@ const Login = () => {
             <input
               type="text"
               id="email"
-              name="text"
+              name="email"
               placeholder="Enter your username"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -74,9 +75,7 @@ const Login = () => {
             />
           </div>
 
-          <button type="submit" className="btn">
-            Login
-          </button>
+          <button type="submit" className="btn">Login</button>
           <p className="register-link">
             Don't have an account? <a href="/register">Register</a>
           </p>
