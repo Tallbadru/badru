@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Swal from 'sweetalert2';
 import "./Login.css"; // Reuse the same CSS as Login
 
+const baseUrl = process.env.REACT_APP_BACKEND_URL;
+
 const Register = () => {
   const [name, setName] = useState("");
   const [contactInfo, setContactInfo] = useState("");
@@ -22,7 +24,7 @@ const Register = () => {
     };
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/tenant/", {
+      const response = await fetch(`${baseUrl}/tenant/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
