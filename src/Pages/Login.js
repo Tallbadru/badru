@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./Login.css";
 
-const baseUrl = process.env.REACT_APP_BACKEND_URL;
+// const baseUrl = process.env.REACT_APP_BACKEND_URL;
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,7 +17,7 @@ const Login = () => {
     };
 
     try {
-      const response = await fetch(`${baseUrl}/login/`, {
+      const response = await fetch("https://babu-rental-house.onrender.com/api/login/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
