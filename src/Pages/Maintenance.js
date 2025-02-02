@@ -5,6 +5,8 @@ import Footer from '../Component/Footer';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
+const baseUrl = process.env.REACT_APP_BACKEND_URL;
+
 const Maintenance = () => {
   const [requests, setRequests] = useState([]);
   const [properties, setProperties] = useState([]);
@@ -15,7 +17,7 @@ const Maintenance = () => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/maintenance/');
+        const response = await axios.get(`${baseUrl}/maintenance/`);
         setRequests(response.data);
       } catch (error) {
         console.error('Error fetching maintenance requests:', error);
@@ -24,7 +26,7 @@ const Maintenance = () => {
 
     const fetchProperties = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/property/');
+        const response = await axios.get(`${baseUrl}/property/`);
         setProperties(response.data);
       } catch (error) {
         console.error('Error fetching properties:', error);
@@ -55,7 +57,7 @@ const Maintenance = () => {
     };
 
     try {
-      await axios.post('http://127.0.0.1:8000/api/maintenance/', newRequestData);
+      await axios.post(`${baseUrl}/maintenance/`, newRequestData);
       setRequests([...requests, newRequestData]); // Add the new request to the state
       setNewRequest(''); // Clear the input field
       setSelectedProperty(''); // Clear the selected property

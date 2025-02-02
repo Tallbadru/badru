@@ -5,6 +5,8 @@ import Header from '../Component/Header';
 import Sidebar from '../Component/Sidebar';
 import Footer from '../Component/Footer';
 
+const baseUrl = process.env.REACT_APP_BACKEND_URL;
+
 const Profile = () => {
   const [tenant, setTenant] = useState({
     name: '',
@@ -23,13 +25,13 @@ const Profile = () => {
     const fetchTenant = async () => {
       try {
         // Fetch the session to get the logged-in tenant's ID
-        const sessionResponse = await axios.get('http://127.0.0.1:8000/api/session'); // Adjust this URL to match your backend's session endpoint
+        const sessionResponse = await axios.get(`${baseUrl}/session`); // Adjust this URL to match your backend's session endpoint
         const tenantIdFromSession = sessionResponse.data.tenant_id;
 
         if (tenantIdFromSession) {
           setTenantId(tenantIdFromSession);
           // Fetch tenant data using the tenant ID
-          const response = await axios.get(`http://127.0.0.1:8000/api/tenant/${tenantIdFromSession}/`);
+          const response = await axios.get(`${baseUrl}/tenant/${tenantIdFromSession}/`);
           if (response.data) {
             setTenant(response.data);
             setFormData(response.data);

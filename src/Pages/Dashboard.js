@@ -4,6 +4,7 @@ import Sidebar from '../Component/Sidebar';
 import Footer from '../Component/Footer';
 import Header from '../Component/Header';
 
+const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
 const Dashboard = () => {
   const [propertySummary, setPropertySummary] = useState({
@@ -27,7 +28,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchPropertySummary = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/property/');
+        const response = await axios.get(`${baseUrl}/property/`);
         const properties = response.data;
         const occupied = properties.filter(property => property.status === 'Booked').length;
         const vacant = properties.filter(property => property.status === 'Empty').length;
@@ -43,7 +44,7 @@ const Dashboard = () => {
 
     const fetchPaymentSummary = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/rentpayment/');
+        const response = await axios.get(`${baseUrl}/rentpayment/`);
         const payments = response.data;
         const totalCollected = payments.filter(payment => payment.status === 'Paid').reduce((sum, payment) => sum + parseFloat(payment.amount), 0);
         const pending = payments.filter(payment => payment.status === 'Pending').reduce((sum, payment) => sum + parseFloat(payment.amount), 0);
@@ -60,7 +61,7 @@ const Dashboard = () => {
 
     const fetchMaintenanceSummary = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/maintenance/');
+        const response = await axios.get(`${baseUrl}/maintenance/`);
         const maintenanceRequests = response.data;
         const requested = maintenanceRequests.filter(request => request.status === 'Requested').length;
         const inProgress = maintenanceRequests.filter(request => request.status === 'In Progress').length;

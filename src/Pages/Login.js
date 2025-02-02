@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./Login.css";
 
 const baseUrl = process.env.REACT_APP_BACKEND_URL;
-
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

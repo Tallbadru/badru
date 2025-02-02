@@ -5,6 +5,10 @@ import Header from '../Component/Header';
 import Sidebar from '../Component/Sidebar';
 import Footer from '../Component/Footer';
 
+
+const baseUrl = process.env.REACT_APP_BACKEND_URL;
+
+
 const Profile = () => {
   const [tenant, setTenant] = useState({
     name: '',
@@ -20,7 +24,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchTenant = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/tenant/1'); // Assuming tenant ID is 1
+        const response = await axios.get(`${baseUrl}/tenant/1`); // Assuming tenant ID is 1
         if (response.data) {
           setTenant(response.data);
           setFormData(response.data);

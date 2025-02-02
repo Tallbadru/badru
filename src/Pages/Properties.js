@@ -6,6 +6,7 @@ import Sidebar from '../Component/Sidebar';
 import Footer from '../Component/Footer';
 import Modal from '../Component/Modal';
 import Swal from 'sweetalert2';
+const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
 const Home = () => {
   const [bookings, setBookings] = useState([]);
@@ -16,7 +17,7 @@ const Home = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/property/');
+        const response = await axios.get(`${baseUrl}/property/`);
         setProperties(response.data);
       } catch (error) {
         console.error('Error fetching properties:', error);
@@ -25,7 +26,7 @@ const Home = () => {
 
     const fetchBookings = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/booking/');
+        const response = await axios.get(`${baseUrl}/booking/`);
         setBookings(response.data);
       } catch (error) {
         console.error('Error fetching bookings:', error);
